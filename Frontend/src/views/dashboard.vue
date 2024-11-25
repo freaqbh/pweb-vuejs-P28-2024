@@ -11,9 +11,19 @@
         <div v-else-if="error">Error: {{ error }}</div>
 
         <!-- Tampilkan Data -->
-        <ul v-else>
-            <li v-for="file in files" :key="file.id">{{ file.title }}</li>
-        </ul>
+        <div v-else>
+            <ul>
+                <li v-for="book in books" :key="book._id">
+                    <h3>{{ book.title }}</h3>
+                    <p>Penulis: {{ book.author }}</p>
+                    <p>Publisher: {{ book.publisher }}</p>
+                    <p>Rating: {{ book.rating.average }} ({{ book.rating.count }} ulasan)</p>
+                    <p>Deskripsi: {{ book.description }}</p>
+                    <p>Tag: {{ book.tags.join(', ') }}</p>
+                    <img :src="book.coverImage" alt="Cover Image" style="width: 150px; height: auto;" />
+                </li>
+            </ul>
+        </div>
 
         <button @click="logout">Logout</button>
     </div>
@@ -21,6 +31,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, onMounted } from 'vue';
+import axios from 'axios';
 
 export default defineComponent({
     setup() {
@@ -30,40 +41,39 @@ export default defineComponent({
             window.location.href = '/login'; // Arahkan ke halaman login
         };
 
-        const files = ref([]); // Menyimpan daftar file
-        const isLoading = ref(false); // Indikator loading
-        const error = ref<string | null>(null); // Menyimpan error
+        const books = ref([]); // Menyimpan data buku
+        const loading = ref(false); // Status loading
+        const error = ref<string | null>(null); // Menyimpan error, jika ada
 
-        const fetchFiles = async () => {
-            isLoading.value = true; // Tampilkan indikator loading
-            const token = localStorage.getItem('token'); // Ambil token dari localStorage
-            console.log(token);
-            if (!token) {
-                error.value = 'Token tidak ditemukan! Silakan login.';
-                isLoading.value = false;
-                return;
-            }
+        const fetchBooks = async () => {
+            loading.value = true;
+            error.value = null;
 
             try {
-                const response = await fetch('http://localhost:3000/books', {
-                    method: 'GET',
+                const token = localStorage.getItem('token');
+                if (!token) {
+                    throw new Error('Token tidak ditemukan. Silakan login.');
+                }
+
+                const response = await axios.get('http://localhost:3000/books', {
                     headers: {
-                        'Authorization': `Bearer ${token}`, // Sertakan token di header
-                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${token}`, // Tambahkan token ke header
                     },
                 });
-                if (!response.ok) throw new Error(`HTTP Error! status: ${response.status}`);
-                files.value = await response.json(); // Simpan hasil response ke state
+                
+                console.log('Response data:', response.data); // Debug log
+                books.value = response.data.data; // Ambil array "data" dari response
             } catch (err: any) {
-                error.value = err.message; // Simpan pesan error
+                error.value = err.response?.data?.message || 'Gagal memuat data';
+                console.error('Error fetching books:', err);
             } finally {
-                isLoading.value = false; // Sembunyikan indikator loading
+                loading.value = false;
             }
         };
 
-        onMounted(fetchFiles); // Fetch data saat komponen dimount
+        onMounted(fetchBooks); // Fetch data saat komponen dimuat
 
-        return { files, isLoading, error, logout };
+        return { books, loading, error, logout };
     },
     
 });
