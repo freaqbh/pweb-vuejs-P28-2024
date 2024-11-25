@@ -21,6 +21,7 @@
 <script lang="ts">
 import { defineComponent, reactive, ref } from 'vue';
 import axios from 'axios';
+import { useRouter } from 'vue-router';
 
 export default defineComponent({
     setup() {
@@ -31,6 +32,7 @@ export default defineComponent({
 
         const loading = ref(false);
         const error = ref('');
+        const router = useRouter();
 
         const loginUser = async () => {
             loading.value = true;
@@ -39,6 +41,7 @@ export default defineComponent({
                 const response = await axios.post('http://localhost:3000/auth/login', formData);
                 localStorage.setItem('token', response.data.token); // Simpan token di browser
                 alert('Login berhasil!');
+                router.push('/dashboard'); // Navigasi ke dashboard
             } catch (err: any) {
                 error.value = err.response?.data?.error || 'Login gagal';
                 console.error(err);

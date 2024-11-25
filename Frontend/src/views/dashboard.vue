@@ -2,6 +2,7 @@
     <div>
         <h2>Dashboard</h2>
         <p>Selamat datang di dashboard!</p>
+        <p>Ini daftar file</p>
         <button @click="logout">Logout</button>
     </div>
 </template>
