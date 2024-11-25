@@ -7,7 +7,7 @@ const routes: Array<RouteRecordRaw> = [
     { path: '/register', component: AddUser },
     { path: '/login', component: Login },
     {
-        path: '/dashboard',
+        path: '/',
         component: Dashboard,
         beforeEnter: (_to, _from, next) => {
             const token = localStorage.getItem('token');

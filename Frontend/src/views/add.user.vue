@@ -8,7 +8,7 @@
             </div>
             <div>
                 <label>Password:</label>
-                <input type="password" v-model="formData.password" required />
+                <input class="input-pass" type="password" v-model="formData.password" required />
             </div>
             <button :disabled="loading" type="submit">
                 {{ loading ? "Processing..." : "Register" }}

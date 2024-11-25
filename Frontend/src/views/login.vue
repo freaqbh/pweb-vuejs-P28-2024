@@ -8,7 +8,7 @@
             </div>
             <div>
                 <label>Password:</label>
-                <input type="password" v-model="formData.password" required />
+                <input class="input-pass" type="password" v-model="formData.password" required />
             </div>
             <button :disabled="loading" type="submit">
                 {{ loading ? "Logging in..." : "Login" }}
@@ -39,9 +39,11 @@ export default defineComponent({
             error.value = '';
             try {
                 const response = await axios.post('http://localhost:3000/auth/login', formData);
-                localStorage.setItem('token', response.data.token); // Simpan token di browser
-                alert('Login berhasil!');
-                router.push('/dashboard'); // Navigasi ke dashboard
+                localStorage.setItem('token', response.data.data.token); // Simpan token di browser
+                const token = localStorage.getItem('token');
+                console.log("login token: ", token)
+                alert('Login berhasil');
+                router.push('/'); // Navigasi ke dashboard
             } catch (err: any) {
                 error.value = err.response?.data?.error || 'Login gagal';
                 console.error(err);
