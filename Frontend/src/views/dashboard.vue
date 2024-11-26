@@ -14,7 +14,9 @@
         <div v-else>
             <ul>
                 <li v-for="book in books" :key="book._id">
-                    <h3>{{ book.title }}</h3>
+                    <router-link :to="`/books/${book._id}`">
+                        <h3 style="cursor: pointer;">{{ book.title }}</h3>
+                    </router-link>
                     <p>Penulis: {{ book.author }}</p>
                     <p>Tag: {{ book.tags.join(', ') }}</p>
                 </li>

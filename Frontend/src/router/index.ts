@@ -2,6 +2,7 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 import AddUser from '../views/add.user.vue';
 import Login from '../views/login.vue';
 import Dashboard from '../views/dashboard.vue';
+import BookDetail from '../views/book.details.vue';
 
 const routes: Array<RouteRecordRaw> = [
     { path: '/register', component: AddUser },
@@ -18,6 +19,7 @@ const routes: Array<RouteRecordRaw> = [
             }
         },
     },
+    { path: '/books/:id', component: BookDetail },
 ];
 
 const router = createRouter({

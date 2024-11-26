@@ -1,9 +1,17 @@
 <template>
     <div>
-        <h2>{{ book?.title }}</h2>
-        <p><strong>Author:</strong> {{ book?.author }}</p>
-        <p><strong>Year:</strong> {{ book?.year }}</p>
-        <router-link to="/">Back to Home</router-link>
+        <h2>Detail Buku</h2>
+        <div v-if="loading">Memuat detail buku...</div>
+        <div v-if="error" class="error">{{ error }}</div>
+        <div v-else-if="book">
+            <h3>{{ book.title }}</h3>
+            <p>Penulis: {{ book.author }}</p>
+            <p>Publisher: {{ book.publisher }}</p>
+            <p>Rating: {{ book.rating.average }} ({{ book.rating.count }} ulasan)</p>
+            <p>Deskripsi: {{ book.description }}</p>
+            <p>Tag: {{ book.tags.join(', ') }}</p>
+            <img :src="book.coverImage" alt="Cover Image" style="width: 150px; height: auto;" />
+        </div>
     </div>
 </template>
 
@@ -12,31 +20,40 @@ import { defineComponent, ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import axios from 'axios';
 
-interface Book {
-    _id: string;
-    title: string;
-    author: string;
-    year: number;
-}
-
 export default defineComponent({
     setup() {
-        const route = useRoute();
-        const book = ref<Book | null>(null);
+        const route = useRoute(); // Akses parameter dari route
+        const book = ref(null);
+        const loading = ref(false);
+        const error = ref<string | null>(null);
 
-        const fetchBook = async () => {
+        const fetchBookDetail = async () => {
+            loading.value = true;
+            error.value = null;
+
             try {
-                const id = route.params.id as string;
-                const response = await axios.get(`http://localhost:5000/api/books/${id}`);
-                book.value = response.data;
-            } catch (error) {
-                console.error('Error fetching book:', error);
+                const token = localStorage.getItem('token');
+                if (!token) {
+                    throw new Error('Token tidak ditemukan. Silakan login.');
+                }
+                const { id } = route.params; // Ambil id dari route
+                const response = await axios.get(`http://localhost:3000/books/${id}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`, // Tambahkan token ke header
+                    },
+                });
+                book.value = response.data.data; // Simpan detail buku
+            } catch (err: any) {
+                error.value = err.response?.data?.message || 'Gagal memuat detail buku';
+                console.error(err);
+            } finally {
+                loading.value = false;
             }
         };
 
-        onMounted(fetchBook);
+        onMounted(fetchBookDetail); // Fetch detail buku saat komponen dimuat
 
-        return { book };
+        return { book, loading, error };
     },
 });
 </script>
