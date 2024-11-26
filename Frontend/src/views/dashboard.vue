@@ -5,7 +5,7 @@
         <p>Ini daftar file</p>
         
         <!-- Indikator Loading -->
-        <div v-if="isLoading">Loading data...</div>
+        <div v-if="loading">Loading data...</div>
 
         <!-- Error -->
         <div v-else-if="error">Error: {{ error }}</div>
