@@ -1,20 +1,13 @@
-<style>
-.login-form{
-  text-align: center;
-  margin-top: 20px;
-}
-</style>
-
 <template>
-    <div class="login-form">
+    <div class="entry">
         <form @submit.prevent="loginUser">
             <div>
                 <label>Username:</label>
                 <input v-model="formData.username" required />
             </div>
             <div>
-                <label>Password :</label>
-                <input type="password" v-model="formData.password" required />
+                <label>Password:</label>
+                <input class="input-pass" type="password" v-model="formData.password" required />
             </div>
             <button :disabled="loading" type="submit">
                 {{ loading ? "Logging in..." : "Login" }}
@@ -30,6 +23,7 @@ import axios from 'axios';
 import { useRouter } from 'vue-router';
 
 export default defineComponent({
+    name: 'LoginForm',
     setup() {
         const formData = reactive({
             username: '',
@@ -45,9 +39,11 @@ export default defineComponent({
             error.value = '';
             try {
                 const response = await axios.post('http://localhost:3000/auth/login', formData);
-                localStorage.setItem('token', response.data.token); // Simpan token di browser
-                alert('Login berhasil!');
-                router.push('/dashboard'); // Navigasi ke dashboard
+                localStorage.setItem('token', response.data.data.token); // Simpan token di browser
+                const token = localStorage.getItem('token');
+                console.log("login token: ", token)
+                alert('Login berhasil');
+                router.push('/'); // Navigasi ke dashboard
             } catch (err: any) {
                 error.value = err.response?.data?.error || 'Login gagal';
                 console.error(err);

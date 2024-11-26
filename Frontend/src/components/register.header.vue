@@ -1,5 +1,5 @@
 <template>
-  <header class="register-header">
+  <header class="entry">
     <h1>Hello!</h1>
     <p>Pembuatan akun baru</p>
   </header>
@@ -11,9 +11,3 @@ export default {
 };
 </script>
 
-<style scoped>
-.register-header {
-  text-align: center;
-  margin-bottom: 20px;
-}
-</style>
