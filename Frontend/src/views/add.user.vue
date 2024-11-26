@@ -1,53 +1,34 @@
 <template>
-    <div>
-        <h2>Register</h2>
-        <form @submit.prevent="registerUser">
-            <div>
-                <label>Username:</label>
-                <input v-model="formData.username" required />
-            </div>
-            <div>
-                <label>Password:</label>
-                <input type="password" v-model="formData.password" required />
-            </div>
-            <button :disabled="loading" type="submit">
-                {{ loading ? "Processing..." : "Register" }}
-            </button>
-        </form>
-        <p v-if="error" style="color: red;">{{ error }}</p>
-    </div>
+  <div class="login-page">
+    <LoginHeader />
+    <LoginForm />
+    <LoginFooter />
+  </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref } from 'vue';
-import axios from 'axios';
+import { defineComponent } from 'vue';
+import LoginHeader from '../components/register.header.vue';
+import LoginForm from '../components/register.form.vue';
+import LoginFooter from '../components/register.footer.vue';
 
 export default defineComponent({
-    setup() {
-        const formData = reactive({
-            username: '',
-            password: '',
-        });
-
-        const loading = ref(false);
-        const error = ref('');
-
-        const registerUser = async () => {
-            loading.value = true;
-            error.value = '';
-            try {
-                const response = await axios.post('http://localhost:3000/auth/register', formData);
-                alert(`User registered successfully: ${response.data.message}`);
-                localStorage.setItem('token', response.data.token); // Simpan token jika diperlukan
-            } catch (err: any) {
-                error.value = err.response?.data?.error || 'Failed to register';
-                console.error(err);
-            } finally {
-                loading.value = false;
-            }
-        };
-
-        return { formData, registerUser, loading, error };
-    },
+  name: 'LoginPage',
+  components: {
+    LoginHeader,
+    LoginForm,
+    LoginFooter,
+  },
 });
 </script>
+
+<style scoped>
+.login-page {
+  max-width: 400px;
+  margin: 50px auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+</style>
