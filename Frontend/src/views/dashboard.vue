@@ -23,6 +23,12 @@
             </ul>
         </div>
 
+        <!-- Button to go to Add Book Page -->
+        <router-link to="/add-book">
+            <button>Tambah Buku</button>
+        </router-link>
+
+        <!-- Logout Button -->
         <button @click="logout">Logout</button>
     </div>
 </template>

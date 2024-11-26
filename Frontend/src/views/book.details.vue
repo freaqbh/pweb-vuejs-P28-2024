@@ -5,12 +5,12 @@
         <div v-if="error" class="error">{{ error }}</div>
         <div v-else-if="book">
             <h3>{{ book.title }}</h3>
+            <img :src="book.coverImage" alt="Cover Image" style="width: 150px; height: auto;" />
             <p>Penulis: {{ book.author }}</p>
             <p>Publisher: {{ book.publisher }}</p>
             <p>Rating: {{ book.rating.average }} ({{ book.rating.count }} ulasan)</p>
             <p>Deskripsi: {{ book.description }}</p>
             <p>Tag: {{ book.tags.join(', ') }}</p>
-            <img :src="book.coverImage" alt="Cover Image" style="width: 150px; height: auto;" />
         </div>
     </div>
 </template>
