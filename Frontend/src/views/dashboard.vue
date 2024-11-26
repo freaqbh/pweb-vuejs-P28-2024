@@ -16,11 +16,7 @@
                 <li v-for="book in books" :key="book._id">
                     <h3>{{ book.title }}</h3>
                     <p>Penulis: {{ book.author }}</p>
-                    <p>Publisher: {{ book.publisher }}</p>
-                    <p>Rating: {{ book.rating.average }} ({{ book.rating.count }} ulasan)</p>
-                    <p>Deskripsi: {{ book.description }}</p>
                     <p>Tag: {{ book.tags.join(', ') }}</p>
-                    <img :src="book.coverImage" alt="Cover Image" style="width: 150px; height: auto;" />
                 </li>
             </ul>
         </div>
