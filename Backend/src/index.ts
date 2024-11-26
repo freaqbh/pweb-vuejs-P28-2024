@@ -4,10 +4,14 @@ import router from "./routes";
 import dbConnection from "./db-connection"; 
 const cors = require('cors');
 
-
 dbConnection();
 
 const app = express();
+
+app.use(cors({
+  origin: 'http://localhost:5173' // Allow requests from this origin
+}));
+
 const port = process.env.PORT || 3000;
 const currentDate = new Date().toISOString().split('T')[0];
 app.use(express.json());
