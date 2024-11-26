@@ -1,5 +1,5 @@
 <template>
-  <footer class="register-footer">
+  <footer class="entry">
     <p>Sudah punya akun<a href="/login">Ayo log in</a>.</p>
   </footer>
 </template>
@@ -10,9 +10,3 @@ export default {
 };
 </script>
 
-<style scoped>
-.register-footer {
-  text-align: center;
-  margin-top: 20px;
-}
-</style>

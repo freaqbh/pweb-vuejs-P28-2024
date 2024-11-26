@@ -1,34 +1,24 @@
 <template>
   <div class="login-page">
-    <LoginHeader />
-    <LoginForm />
-    <LoginFooter />
+    <RegisterHeader />
+    <RegisterForm />
+    <RegisterFooter />
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import LoginHeader from '../components/register.header.vue';
-import LoginForm from '../components/register.form.vue';
-import LoginFooter from '../components/register.footer.vue';
+import RegisterHeader from '../components/register.header.vue';
+import RegisterForm from '../components/register.form.vue';
+import RegisterFooter from '../components/register.footer.vue';
 
 export default defineComponent({
-  name: 'LoginPage',
+  name: 'RegisterPage',
   components: {
-    LoginHeader,
-    LoginForm,
-    LoginFooter,
+    RegisterHeader,
+    RegisterForm,
+    RegisterFooter,
   },
 });
 </script>
 
-<style scoped>
-.login-page {
-  max-width: 400px;
-  margin: 50px auto;
-  padding: 20px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-</style>

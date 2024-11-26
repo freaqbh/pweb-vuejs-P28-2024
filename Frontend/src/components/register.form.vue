@@ -1,20 +1,13 @@
-<style>
-.register-form{
-  text-align: center;
-  margin-top: 20px;
-}
-</style>
-
 <template>
-    <div class="register-form">
+    <div class="entry">
         <form @submit.prevent="registerUser">
             <div>
                 <label>Username:</label>
                 <input v-model="formData.username" required />
             </div>
             <div>
-                <label>Password :</label>
-                <input type="password" v-model="formData.password" required />
+                <label>Password:</label>
+                <input class="input-pass" type="password" v-model="formData.password" required />
             </div>
             <button :disabled="loading" type="submit">
                 {{ loading ? "Processing..." : "Register" }}
@@ -29,6 +22,7 @@ import { defineComponent, reactive, ref } from 'vue';
 import axios from 'axios';
 
 export default defineComponent({
+    name: 'RegisterForm',
     setup() {
         const formData = reactive({
             username: '',
