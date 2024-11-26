@@ -38,7 +38,7 @@ export default defineComponent({
             try {
                 const response = await axios.post('http://localhost:3000/auth/register', formData);
                 alert(`User registered successfully: ${response.data.message}`);
-                localStorage.setItem('token', response.data.token); // Simpan token jika diperlukan
+                localStorage.setItem('token', response.data.data.token); // Simpan token jika diperlukan
             } catch (err: any) {
                 error.value = err.response?.data?.error || 'Failed to register';
                 console.error(err);
