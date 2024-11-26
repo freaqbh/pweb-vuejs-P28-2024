@@ -45,7 +45,7 @@ export default defineComponent({
             error.value = '';
             try {
                 const response = await axios.post('http://localhost:3000/auth/login', formData);
-                localStorage.setItem('token', response.data.token); // Simpan token di browser
+                localStorage.setItem('token', response.data.data.token); // Simpan token di browser
                 alert('Login berhasil!');
                 router.push('/dashboard'); // Navigasi ke dashboard
             } catch (err: any) {
