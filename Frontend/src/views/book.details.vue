@@ -12,6 +12,8 @@
             <p>Deskripsi: {{ book.description }}</p>
             <p>Tag: {{ book.tags.join(', ') }}</p>
         </div>
+
+        <button @click="back">Back to dashboard</button>
     </div>
 </template>
 
@@ -22,6 +24,9 @@ import axios from 'axios';
 
 export default defineComponent({
     setup() {
+        const back = () => {
+            window.location.href = '/dashboard';
+        };
         const route = useRoute(); // Akses parameter dari route
         const book = ref(null);
         const loading = ref(false);
@@ -53,7 +58,7 @@ export default defineComponent({
 
         onMounted(fetchBookDetail); // Fetch detail buku saat komponen dimuat
 
-        return { book, loading, error };
+        return { book, loading, error, back };
     },
 });
 </script>
