@@ -19,6 +19,7 @@
                     </router-link>
                     <p>Penulis: {{ book.author }}</p>
                     <p>Tag: {{ book.tags.join(', ') }}</p>
+                    <button @click="deleteBook(book._id)" style="color: red;">Hapus</button>
                 </li>
             </ul>
         </div>
@@ -75,9 +76,33 @@ export default defineComponent({
             }
         };
 
+        const deleteBook = async (id: string) => {
+            const confirmed = confirm('Apakah Anda yakin ingin menghapus buku ini?');
+            if (!confirmed) return;
+
+            try {
+                const token = localStorage.getItem('token');
+                if (!token) {
+                    throw new Error('Token tidak ditemukan. Silakan login.');
+                }
+
+                await axios.delete(`http://localhost:3000/books/${id}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+                alert('Buku berhasil dihapus!');
+            
+                books.value = books.value.filter(book => book._id !== id);
+            } catch (err: any) {
+                error.value = err.response?.data?.message || 'Gagal menghapus buku';
+                console.error('Error deleting book:', err);
+            }
+        };
+
         onMounted(fetchBooks); // Fetch data saat komponen dimuat
 
-        return { books, loading, error, logout };
+        return { books, loading, error, logout, deleteBook };
     },
     
 });
